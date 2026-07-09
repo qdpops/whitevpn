@@ -37,19 +37,10 @@ echo
 warn "Не все клиенты читают параметры padding из ссылки. После импорта профиля"
 warn "вставьте JSON ниже в поле 'XHTTP extra / Raw JSON':"
 echo
-cat <<EOF
-{
-  "mode": "packet-up",
-  "scMaxEachPostBytes": 1000000,
-  "scMinPostsIntervalMs": 30,
-  "scMaxBufferedPosts": 30,
-  "xPaddingObfsMode": true,
-  "xPaddingKey": "${PADDING_KEY}",
-  "xPaddingHeader": "X-Cache",
-  "xPaddingMethod": "tokenish",
-  "xPaddingPlacement": "queryInHeader",
-  "uplinkHTTPMethod": "OPTIONS"
-}
-EOF
+# Однострочный (minified) JSON: многие клиенты (HAPP, V2RayTun) держат поле
+# "XHTTP extra / Raw JSON" как однострочное, и при вставке из терминала
+# многострочный JSON с отступами обрывается/ломается по переносам строк,
+# из-за чего клиент выдаёт ошибку парсинга JSON.
+printf '{"mode":"packet-up","scMaxEachPostBytes":1000000,"scMinPostsIntervalMs":30,"scMaxBufferedPosts":30,"xPaddingObfsMode":true,"xPaddingKey":"%s","xPaddingHeader":"X-Cache","xPaddingMethod":"tokenish","xPaddingPlacement":"queryInHeader","uplinkHTTPMethod":"OPTIONS"}\n' "$PADDING_KEY"
 echo
 echo "Проверьте вручную в клиенте: Allow insecure = выключено, Address/SNI/Host = ${CDN_HOST}"

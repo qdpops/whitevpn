@@ -58,6 +58,26 @@ CDN) вынесены в чек-лист, так как это UI-действи
    ./scripts/04-generate-client-config.sh
    ```
 
+7. **Дополнительные пользователи** — выдать отдельный UUID каждому
+   устройству/человеку вместо расшаривания одного. Без аргументов открывает
+   интерактивное меню (добавить/показать/удалить), при добавлении сразу
+   выводит готовую vless-ссылку и JSON padding:
+
+   ```
+   ./scripts/05-manage-vless-users.sh
+   ```
+
+   Либо напрямую:
+
+   ```
+   ./scripts/05-manage-vless-users.sh add "имя метки"
+   ./scripts/05-manage-vless-users.sh list
+   ./scripts/05-manage-vless-users.sh remove "имя метки или UUID"
+   ```
+
+   CDN-домен/путь/padding-ключ запоминаются после первого ввода в
+   `/usr/local/etc/xray/client-defaults.env`.
+
 ## Файлы
 
 - `scripts/lib/common.sh` — общие функции (ask/confirm/gen_uuid/валидация домена)
@@ -65,6 +85,7 @@ CDN) вынесены в чек-лист, так как это UI-действи
 - `scripts/02-setup-origin-server.sh` — раздел 3 инструкции
 - `scripts/03-verify-cdn.sh` — раздел 8 инструкции
 - `scripts/04-generate-client-config.sh` — раздел 9 инструкции
+- `scripts/05-manage-vless-users.sh` — управление UUID-пользователями (add/list/remove)
 - `docs/05-yandex-cloud-checklist.md` — разделы 1, 4–7, 10, 11 инструкции
 
 ## Важно
